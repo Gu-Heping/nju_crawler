@@ -13,24 +13,47 @@
    pip install -r requirements.txt
    ```
 
-3. 启动主应用（独立服务模式）：
+3. 配置环境变量（推荐使用 .env 文件）
+   - 在项目根目录新建 `.env` 文件，内容参考如下：
+     ```env
+     CRAWL_INTERVAL=3600
+     REQUEST_TIMEOUT=30
+     MAX_RETRIES=3
+     AUTO_CRAWL_ENABLED=true
+     VECTOR_SYNC_ENABLED=false
+     TESSERACT_CMD=
+     TESSDATA_DIR=
+     CRAWLER_DB_PATH=./data/crawler.db
+     ```
+   - 所有配置项均可通过 `.env` 文件注入，无需硬编码在 config.py。
+   - 推荐使用 [python-dotenv](https://github.com/theskumar/python-dotenv) 自动加载 `.env` 文件。
+
+4. 启动主应用（独立服务模式）：
    ```powershell
    python main.py
    # 或
    uvicorn main:app --reload
    ```
 
+5. 打开 API 文档：
+   - Swagger UI: http://127.0.0.1:8000/docs
+   - ReDoc: http://127.0.0.1:8000/redoc
+
 ## 目录结构说明
 - `crawler/`：爬虫模块主包，包含所有核心代码
 - `main.py`：主应用入口，可直接运行
 - `requirements.txt`：依赖列表
 - `venv/`：虚拟环境目录（自动生成，无需提交到Git）
+- `.env`：环境变量配置文件（敏感信息请勿提交到Git）
 
-## 贡献开发
-- 推荐每位开发者使用虚拟环境，避免依赖冲突
-- 所有新依赖请写入 `requirements.txt`
-- 代码风格建议遵循 PEP8
+## 协作开发建议
+- 每位开发者建议使用虚拟环境，避免依赖冲突
+- 新增依赖请写入 `requirements.txt`，并及时同步
+- 数据库配置请勿提交敏感信息到 Git，可用 `.env` 管理
+- 代码风格建议遵循 PEP8，统一格式
 - 统一通过 `main.py` 或集成到其他 FastAPI 项目
+- 如需迁移历史数据，可用 CSV 导出/导入工具
+- 常见问题请查阅 PostgreSQL 官方文档或项目 Wiki
 
 ---
 如有问题请联系项目维护者。

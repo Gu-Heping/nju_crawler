@@ -39,7 +39,14 @@ async def crawl_endpoint(payload: CrawlRequest) -> CrawlResponse:
       - RuntimeError：网络或解析失败，返回 502
     """
     try:
-        data = await crawl_source(payload.source)  # 调用服务层异步抓取
+        if payload.source == "all":
+            # 抓取所有源
+            data = []
+            for source in [s["id"] for s in crawl_source.TARGET_SOURCES]:
+                source_data = await crawl_source(source)
+                data.extend(source_data)
+        else:
+            data = await crawl_source(payload.source)  # 调用服务层异步抓取
         return CrawlResponse(data=data)
     except ValueError as exc:
         # 未知源，返回 404
