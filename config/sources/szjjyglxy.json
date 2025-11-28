@@ -37,8 +37,7 @@
         "url": ".xysbt a"
       },
       "detail_selector": "#d-container .wp_articlecontent p"
-    }
-      "max_pages": 3,
+    }],
     "detail_selectors": [
       {
         "base_url": "https://sdem.nju.edu.cn",
